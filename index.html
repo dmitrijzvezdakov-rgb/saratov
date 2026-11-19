@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Симулятор Автобуса 2D — Саратов</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ГЛАВНОЕ МЕНЮ -->
+  <div id="main-menu">
+    <div class="menu-box">
+      <div class="menu-badge" id="menu-top-badge">САРАТОВ • ОБЩЕСТВЕННЫЙ ТРАНСПОРТ</div>
+      <h1>Симулятор Автобуса 2D</h1>
+      <p class="menu-subtitle">КАМАЗ-5299 CNG • Брутто-контракт</p>
+
+      <div class="menu-controls">
+        <label class="menu-label">1. Выберите маршрут:</label>
+        <select id="menu-route-select" class="menu-select">
+          <option value="41A">Маршрут № 41А (Астраханская — Хэппи Молл 2)</option>
+        </select>
+
+        <label class="menu-label">2. Выберите направление:</label>
+        <select id="menu-dir-select" class="menu-select">
+          <option value="forward">Ул. Астраханская → ТЦ «Хэппи Молл 2»</option>
+          <option value="reverse">ТЦ «Хэппи Молл 2» → Ул. Астраханская</option>
+        </select>
+
+        <button id="btn-play" class="btn-play">▶ ИГРАТЬ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ВЕРХНЕЕ ТАБЛО -->
+  <div id="top-board">
+    <div style="display:flex; align-items:center; gap:15px;">
+      <button id="btn-open-menu" class="btn-menu-small">☰ Меню</button>
+      <div class="route-badge" id="top-route-badge">41А</div>
+      <div>
+        <div style="font-weight:bold; font-size:15px;">Саратов • КАМАЗ-5299 CNG</div>
+        <div id="route-dir-text" style="font-size:12px; color:#a0aec0;">Ул. Астраханская — ТЦ «Хэппи Молл 2»</div>
+      </div>
+    </div>
+    <div class="led-display" id="led-text">ОСТАНОВКА: УЛ. АСТРАХАНСКАЯ / КОЛЛЕДЖ</div>
+    <div class="stats">
+      <div class="stat-box">Пассажиры: <span id="pass-count">12</span></div>
+      <div class="stat-box">Очки: <span id="score-count">0</span></div>
+    </div>
+  </div>
+
+  <!-- МИНИ-КАРТА -->
+  <div id="route-map-bar">
+    <div class="map-header">
+      <span id="map-route-title">Схема маршрута 41А</span>
+      <span id="next-stop-dist">До след. остановки: 350 м</span>
+    </div>
+    <div id="map-track">
+      <div id="map-line"></div>
+      <div id="map-bus-marker" title="Вы здесь">🚌</div>
+    </div>
+  </div>
+
+  <!-- ИГРОВОЕ ПОЛЕ -->
+  <div id="game-container">
+    <div id="message-overlay">Откройте двери [D] для посадки или нажмите [→] для отправления</div>
+    
+    <!-- Модальное окно конца рейса -->
+    <div id="finish-modal" class="hidden">
+      <div class="modal-card">
+        <h2>🏁 Конечная остановка!</h2>
+        <p id="finish-summary">Вы успешно завершили рейс по маршруту.</p>
+        <button id="btn-reverse-route" class="btn-reverse">🔄 Поехать в обратную сторону</button>
+      </div>
+    </div>
+
+    <!-- Секретная кнопка для остановки Коллективная (41А) -->
+    <button id="btn-secret-kollektivnaya" class="btn-secret hidden">💩 Дристать</button>
+
+    <!-- Коричневый оверлей на 5 секунд -->
+    <div id="brown-screen-overlay" class="hidden">
+      <div class="brown-text">💩 Экстренная техническая остановка на ул. Коллективной... (5 сек)</div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+  </div>
+
+  <!-- ПУЛЬТ ВОДИТЕЛЯ -->
+  <div id="dashboard">
+    <div class="panel-block">
+      <div class="panel-title">Спидометр (км/ч)</div>
+      <div class="speedometer" id="speed-val">0</div>
+    </div>
+
+    <div class="panel-block">
+      <div class="panel-title">Управление движением</div>
+      <div class="btn-group">
+        <button class="btn-brake" id="btn-brake">Тормоз [←]</button>
+        <button class="btn-gas" id="btn-gas">Газ [→]</button>
+      </div>
+    </div>
+
+    <div class="panel-block">
+      <div class="panel-title">Салон и ОДЗ</div>
+      <div class="btn-group">
+        <button class="btn-doors" id="btn-doors">Двери: ЗАКРЫТЫ [D]</button>
+        <button class="btn-announce" id="btn-announce">Информатор [A]</button>
+      </div>
+    </div>
+
+    <div class="panel-block controls-hint">
+      <div><kbd>→</kbd> / <kbd>W</kbd> — Разгон (при закрытых дверях)</div>
+      <div><kbd>←</kbd> / <kbd>S</kbd> — Торможение</div>
+      <div><kbd>D</kbd> / <kbd>Пробел</kbd> — Открыть / закрыть двери</div>
+      <div><kbd>A</kbd> — Объявить остановку голосом</div>
+    </div>
+  </div>
+
+  <!-- Подключение всех скриптов проекта -->
+  <script src="route8b.js"></script>
+  <script src="route6a.js"></script>
+  <script src="route11a.js"></script>
+  <script src="route284b.js"></script>
+  <script src="route53.js"></script>
+  <script src="route41a.js"></script>
+  <script src="game.js"></script>
+  <script src="menu.js"></script>
+</body>
+</html>
